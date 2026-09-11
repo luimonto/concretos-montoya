@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ maquina.asset_code }} | Concretos Montoya</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f4f5f7;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .machine-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .no-image {
+            height: 250px;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+        }
+
+        .content {
+            padding: 24px;
+        }
+
+        .company {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .asset-code {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        h1 {
+            margin: 0 0 24px;
+            font-size: 26px;
+        }
+
+        .info {
+            border-top: 1px solid #e5e7eb;
+            padding: 14px 0;
+        }
+
+        .label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #6b7280;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-size: 16px;
+        }
+
+        .condition {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: #f3f4f6;
+        }
+
+        .notes {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        {% if foto_principal %}
+            <img
+                class="machine-image"
+                src="{{ foto_principal.image.url }}"
+                alt="Foto de {{ maquina }}"
+            >
+        {% else %}
+            <div class="no-image">
+                No hay fotografía disponible
+            </div>
+        {% endif %}
+
+
+        <div class="content">
+
+            <div class="company">
+                CONCRETOS MONTOYA
+            </div>
+
+            <div class="asset-code">
+                {{ maquina.asset_code }}
+            </div>
+
+            <h1>
+                {{ maquina.equipment_type.name }}
+            </h1>
+
+
+            <div class="info">
+                <div class="label">
+                    Categoría
+                </div>
+
+                <div class="value">
+                    {{ maquina.category.name }}
+                </div>
+            </div>
+
+
+            {% if maquina.brand %}
+                <div class="info">
+                    <div class="label">
+                        Marca
+                    </div>
+
+                    <div class="value">
+                        {{ maquina.brand.name }}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if maquina.model %}
+                <div class="info">
+                    <div class="label">
+                        Modelo
+                    </div>
+
+                    <div class="value">
+                        {{ maquina.model }}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if maquina.serial_number %}
+                <div class="info">
+                    <div class="label">
+                        Número de serie
+                    </div>
+
+                    <div class="value">
+                        {{ maquina.serial_number }}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if maquina.engine_number %}
+                <div class="info">
+                    <div class="label">
+                        Número de motor
+                    </div>
+
+                    <div class="value">
+                        {{ maquina.engine_number }}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if maquina.manufacturing_year %}
+                <div class="info">
+                    <div class="label">
+                        Año de fabricación
+                    </div>
+
+                    <div class="value">
+                        {{ maquina.manufacturing_year }}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            <div class="info">
+                <div class="label">
+                    Condición física
+                </div>
+
+                <div class="value condition">
+                    {{ maquina.get_physical_condition_display }}
+                </div>
+            </div>
+
+
+            {% if maquina.owner %}
+                <div class="info">
+                    <div class="label">
+                        Propietario
+                    </div>
+
+                    <div class="value">
+                        {{ maquina.owner }}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if maquina.internal_inventory_number %}
+                <div class="info">
+                    <div class="label">
+                        Número de inventario interno
+                    </div>
+
+                    <div class="value">
+                        {{ maquina.internal_inventory_number }}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if maquina.notes %}
+                <div class="info">
+                    <div class="label">
+                        Observaciones
+                    </div>
+
+                    <div class="value notes">
+                        {{ maquina.notes }}
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
