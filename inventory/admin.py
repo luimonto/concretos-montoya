@@ -177,7 +177,6 @@ class MovementInline(admin.TabularInline):
 # ============================================================
 # ASSET
 # ============================================================
-
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
 
@@ -312,17 +311,23 @@ class AssetAdmin(admin.ModelAdmin):
         AssetPhotoInline,
     )
 
+    def changelist_view(self, request, extra_context=None):
+        self.current_request = request
+        return super().changelist_view(request, extra_context=extra_context)
+
     def qr_code_image(self, obj):
         if not obj.qr_token:
             return "Sin QR"
 
-        url = f"https://concretos-montoya.onrender.com/asset/{obj.qr_token}/" #change this
+        base_url = self.current_request.build_absolute_uri('/').rstrip('/')
+        url = f"{base_url}/maquinas/info/{obj.qr_token}/"
 
         qr = qrcode.QRCode(
             version=1,
             box_size=4,
             border=2,
         )
+        print(url)
         qr.add_data(url)
         qr.make(fit=True)
 
@@ -333,7 +338,8 @@ class AssetAdmin(admin.ModelAdmin):
         img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
 
         return format_html(
-            '<img src="data:image/png;base64,{}" style="max-height: auto; max-width: 200px;" />',
+            '<a href="{}" target="_blank"><img src="data:image/png;base64,{}" style="max-height: auto; max-width: 200px;" /></a>',
+            url,
             img_str,
         )
 
