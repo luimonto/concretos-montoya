@@ -44,12 +44,14 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'jazzmin',
+    'cloudinary_storage', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
 
     'inventory',
 ]
@@ -97,17 +99,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+change = "perro"
+
+if change == "test":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}"""
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL")
-    )
-}
+else:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.getenv("DATABASE_URL")
+        )
+    }
 
 
 # Password validation
@@ -149,15 +155,18 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
 
 
 # Email
