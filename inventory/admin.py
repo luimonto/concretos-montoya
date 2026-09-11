@@ -1,3 +1,6 @@
+import io
+import base64
+import qrcode
 from django.contrib import admin
 from django.utils.html import format_html
 
@@ -188,6 +191,7 @@ class AssetAdmin(admin.ModelAdmin):
         "physical_condition",
         "identification_status",
         "current_location_display",
+        "qr_code_image",
     )
 
     list_filter = (
@@ -221,6 +225,7 @@ class AssetAdmin(admin.ModelAdmin):
     readonly_fields = (
         "asset_code",
         "qr_token",
+        "qr_code_image",
         "created_at",
         "updated_at",
         "current_location_display",
@@ -307,6 +312,31 @@ class AssetAdmin(admin.ModelAdmin):
         AssetPhotoInline,
     )
 
+    def qr_code_image(self, obj):
+        if not obj.qr_token:
+            return "Sin QR"
+
+        url = f"https://concretos-montoya.onrender.com/asset/{obj.qr_token}/" #change this
+
+        qr = qrcode.QRCode(
+            version=1,
+            box_size=4,
+            border=2,
+        )
+        qr.add_data(url)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG")
+        img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+        return format_html(
+            '<img src="data:image/png;base64,{}" style="max-height: auto; max-width: 200px;" />',
+            img_str,
+        )
+
     def current_location_display(self, obj):
         """
         Obtiene la ubicación actual a partir del último movimiento
@@ -325,6 +355,7 @@ class AssetAdmin(admin.ModelAdmin):
         return "Sin ubicación registrada"
 
     current_location_display.short_description = "Ubicación actual"
+    qr_code_image.short_description = "Código QR"
 
 
 # ============================================================
