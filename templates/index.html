@@ -1,0 +1,885 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Concretos Montoya | Construcción y Obra Civil</title>
+
+    <meta
+        name="description"
+        content="Concretos Montoya. Contratista especializado en construcción, obra civil, carreteras, edificios, casas e infraestructura."
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #222;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(8px);
+
+            padding: 18px 5%;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #d69e2e;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #d69e2e;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.65),
+                    rgba(0, 0, 0, 0.65)
+                ),
+                url("https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=2000&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+
+            padding: 120px 5% 80px;
+
+            color: white;
+        }
+
+        .hero-label {
+            color: #d69e2e;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 78px);
+            line-height: 1.05;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #d69e2e;
+        }
+
+        .hero p {
+            max-width: 650px;
+            font-size: 20px;
+            color: #e5e5e5;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 14px 28px;
+
+            text-decoration: none;
+            font-weight: 700;
+
+            border-radius: 4px;
+
+            transition:
+                transform 0.2s,
+                background 0.2s;
+        }
+
+        .btn-primary {
+            background: #d69e2e;
+            color: #111;
+        }
+
+        .btn-primary:hover {
+            background: #f0b83f;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 1px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #111;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           GENERAL
+        ========================= */
+
+        .section {
+            padding: 90px 5%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            color: #b17b13;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            line-height: 1.2;
+            color: #1a1a1a;
+        }
+
+        .section-description {
+            max-width: 700px;
+            margin-top: 15px;
+            color: #666;
+            font-size: 17px;
+        }
+
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services {
+            background: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .service-card {
+            background: #f7f7f7;
+            padding: 30px;
+
+            border-left: 4px solid #d69e2e;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-icon {
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about {
+            background: #eeeeee;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+
+            align-items: center;
+        }
+
+        .about-image {
+            min-height: 450px;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.15),
+                    rgba(0,0,0,0.15)
+                ),
+                url("https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .about-text p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+
+        .about-points {
+            list-style: none;
+            margin-top: 25px;
+        }
+
+        .about-points li {
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .about-points li::before {
+            content: "✓";
+            color: #b17b13;
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+
+        /* =========================
+           PROJECTS
+        ========================= */
+
+        .projects {
+            background: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .project-card {
+            position: relative;
+            min-height: 320px;
+
+            overflow: hidden;
+
+            background: #222;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+
+            object-fit: cover;
+
+            transition: transform 0.4s;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            padding: 30px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    transparent,
+                    rgba(0,0,0,0.9)
+                );
+        }
+
+        .project-overlay h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .project-overlay p {
+            color: #ddd;
+        }
+
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            background: #1c1c1c;
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            color: #ccc;
+            max-width: 650px;
+            margin: 0 auto 30px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111;
+            color: #aaa;
+
+            padding: 40px 5%;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-brand {
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .footer-brand span {
+            color: #d69e2e;
+        }
+
+        .copyright {
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .hero-content {
+                padding-top: 140px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .section {
+                padding: 65px 5%;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="#" class="logo">
+                CONCRETOS <span>MONTOYA</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+        </div>
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main>
+
+        <section id="inicio" class="hero">
+
+            <div class="hero-content">
+
+                <div class="hero-label">
+                    Construcción · Infraestructura · Obra Civil
+                </div>
+
+                <h1>
+                    Construimos
+                    <span>proyectos</span>
+                    que perduran.
+                </h1>
+
+                <p>
+                    Concretos Montoya es una empresa dedicada a la
+                    construcción y ejecución de proyectos de obra civil,
+                    infraestructura, carreteras, edificios y vivienda.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="#proyectos" class="btn btn-primary">
+                        Conoce nuestros proyectos
+                    </a>
+
+                    <a href="#contacto" class="btn btn-secondary">
+                        Contáctanos
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SERVICES
+        ========================== -->
+
+        <section id="servicios" class="section services">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div class="section-label">
+                        Lo que hacemos
+                    </div>
+
+                    <h2 class="section-title">
+                        Servicios de construcción
+                    </h2>
+
+                    <p class="section-description">
+                        Participamos en proyectos de diferentes escalas,
+                        desde obras de infraestructura hasta construcción
+                        residencial y comercial.
+                    </p>
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    <article class="service-card">
+
+                        <div class="service-icon">🛣️</div>
+
+                        <h3>Carreteras</h3>
+
+                        <p>
+                            Construcción y trabajos relacionados con
+                            infraestructura vial.
+                        </p>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-icon">🏢</div>
+
+                        <h3>Edificios</h3>
+
+                        <p>
+                            Ejecución de proyectos de construcción
+                            comercial y estructural.
+                        </p>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-icon">🏠</div>
+
+                        <h3>Vivienda</h3>
+
+                        <p>
+                            Construcción y desarrollo de casas y
+                            proyectos residenciales.
+                        </p>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-icon">🏗️</div>
+
+                        <h3>Obra civil</h3>
+
+                        <p>
+                            Trabajos de construcción, infraestructura
+                            y proyectos especiales.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ABOUT
+        ========================== -->
+
+        <section id="nosotros" class="section about">
+
+            <div class="container">
+
+                <div class="about-grid">
+
+                    <div class="about-image"></div>
+
+
+                    <div class="about-text">
+
+                        <div class="section-label">
+                            Concretos Montoya
+                        </div>
+
+                        <h2 class="section-title">
+                            Experiencia para construir
+                            grandes proyectos.
+                        </h2>
+
+                        <p>
+                            Somos una empresa dedicada a la construcción
+                            y ejecución de proyectos, trabajando con
+                            compromiso, responsabilidad y atención a
+                            cada etapa de la obra.
+                        </p>
+
+                        <p>
+                            Nuestra experiencia abarca diferentes tipos
+                            de proyectos, desde infraestructura y
+                            carreteras hasta edificios y vivienda.
+                        </p>
+
+
+                        <ul class="about-points">
+
+                            <li>
+                                Experiencia en diferentes tipos de obra
+                            </li>
+
+                            <li>
+                                Compromiso con cada proyecto
+                            </li>
+
+                            <li>
+                                Equipo y maquinaria para la operación
+                            </li>
+
+                            <li>
+                                Atención personalizada
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PROJECTS
+        ========================== -->
+
+        <section id="proyectos" class="section projects">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div class="section-label">
+                        Nuestro trabajo
+                    </div>
+
+                    <h2 class="section-title">
+                        Proyectos
+                    </h2>
+
+                    <p class="section-description">
+                        Algunos de los tipos de proyectos en los que
+                        participamos.
+                    </p>
+
+                </div>
+
+
+                <div class="projects-grid">
+
+                    <article class="project-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1000&q=80"
+                            alt="Proyecto de infraestructura"
+                        >
+
+                        <div class="project-overlay">
+
+                            <h3>Infraestructura</h3>
+
+                            <p>
+                                Proyectos de obra civil
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="project-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80"
+                            alt="Construcción de edificio"
+                        >
+
+                        <div class="project-overlay">
+
+                            <h3>Edificación</h3>
+
+                            <p>
+                                Construcción de edificios
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="project-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1000&q=80"
+                            alt="Construcción residencial"
+                        >
+
+                        <div class="project-overlay">
+
+                            <h3>Residencial</h3>
+
+                            <p>
+                                Casas y proyectos de vivienda
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section id="contacto" class="section cta">
+
+            <div class="container">
+
+                <h2>
+                    ¿Tienes un proyecto?
+                </h2>
+
+                <p>
+                    Cuéntanos sobre tu proyecto y conversemos sobre
+                    cómo podemos ayudarte.
+                </p>
+
+                <a href="mailto:concretosmontoya@hotmail.com"
+                   class="btn btn-primary">
+                    Contactarnos
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+                CONCRETOS <span>MONTOYA</span>
+            </div>
+
+            <div class="copyright">
+                © {% now "Y" %} Concretos Montoya. Todos los derechos reservados.
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
