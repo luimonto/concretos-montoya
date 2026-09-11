@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
 set -o errexit
-
-python manage.py collectstatic --noinput
-python manage.py migrate
+uv sync --no-dev
+uv run python manage.py collectstatic --noinput
+uv run python manage.py migrate
