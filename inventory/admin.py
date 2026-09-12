@@ -3,6 +3,9 @@ import base64
 import qrcode
 from django.contrib import admin
 from django.utils.html import format_html
+from django.http import HttpRequest
+from django.shortcuts import render
+from django.urls import path, reverse
 
 from .models import (
     Asset,
@@ -191,6 +194,7 @@ class AssetAdmin(admin.ModelAdmin):
         "identification_status",
         "current_location_display",
         "qr_code_image",
+        "print_qr_button",
     )
 
     list_filter = (
@@ -311,6 +315,71 @@ class AssetAdmin(admin.ModelAdmin):
         AssetPhotoInline,
     )
 
+    def imprimir_qr(self, request, object_id):
+        obj = self.get_object(request, object_id)
+
+        if not obj:
+            return HttpResponse("Activo no encontrado", status=404)
+
+        base_url = request.build_absolute_uri("/").rstrip("/")
+        url = f"{base_url}/maquinas/info/{obj.qr_token}/"
+
+        qr = qrcode.QRCode(
+            version=1,
+            box_size=10,
+            border=4,
+        )
+
+        qr.add_data(url)
+        qr.make(fit=True)
+
+        img = qr.make_image(
+            fill_color="black",
+            back_color="white",
+        )
+
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG")
+
+        img_str = base64.b64encode(
+            buffer.getvalue()
+        ).decode("utf-8")
+
+        return render(
+            request,
+            "admin/inventory/asset/imprimir_qr.html",
+            {
+                "asset": obj,
+                "qr_image": img_str,
+                "qr_url": url,
+            },
+        )
+
+    def get_urls(self):
+        urls = super().get_urls()
+
+        custom_urls = [
+            path(
+                "<path:object_id>/imprimir-qr/",
+                self.admin_site.admin_view(self.imprimir_qr),
+                name="asset-imprimir-qr",
+            ),
+        ]
+        return custom_urls + urls
+
+    def print_qr_button(self, obj):
+        url = reverse(
+            "admin:asset-imprimir-qr",
+            args=[obj.pk],
+        )
+
+        return format_html(
+            '<a class="button" href="{}" target="_blank">'
+            '🖨️ Imprimir QR'
+            '</a>',
+            url,
+        )
+
     def changelist_view(self, request, extra_context=None):
         self.current_request = request
         return super().changelist_view(request, extra_context=extra_context)
@@ -362,6 +431,7 @@ class AssetAdmin(admin.ModelAdmin):
 
     current_location_display.short_description = "Ubicación actual"
     qr_code_image.short_description = "Código QR"
+    print_qr_button.short_description = "Imprimir"
 
 
 # ============================================================

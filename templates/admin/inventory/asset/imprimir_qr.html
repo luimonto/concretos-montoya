@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        QR - {{ asset.asset_code }}
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f5f5f5;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        .qr-card {
+
+            width: 400px;
+
+            background: white;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .company {
+
+            font-size: 22px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 5px;
+        }
+
+        .company span {
+            color: #c6922e;
+        }
+
+        .subtitle {
+
+            color: #666;
+
+            font-size: 13px;
+
+            margin-bottom: 30px;
+        }
+
+        .qr {
+
+            width: 280px;
+
+            height: 280px;
+
+            margin: 0 auto 25px;
+
+            display: block;
+        }
+
+        .asset-code {
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            margin-bottom: 15px;
+        }
+
+        .asset-info {
+
+            font-size: 15px;
+
+            color: #444;
+
+            line-height: 1.6;
+        }
+
+        .asset-info strong {
+            color: #111;
+        }
+
+        .instructions {
+
+            margin-top: 25px;
+
+            font-size: 12px;
+
+            color: #777;
+        }
+
+        .print-button {
+
+            margin-top: 25px;
+
+            padding: 12px 25px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #222;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .print-button:hover {
+            background: #444;
+        }
+
+
+        @media print {
+
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .qr-card {
+
+                box-shadow: none;
+
+                border-radius: 0;
+
+                width: 100%;
+
+                max-width: 400px;
+
+            }
+
+            .print-button {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="qr-card">
+
+        <div class="company">
+            CONCRETOS <span>MONTOYA</span>
+        </div>
+
+        <div class="subtitle">
+            Identificación de maquinaria y equipo
+        </div>
+
+
+        <img
+            class="qr"
+            src="data:image/png;base64,{{ qr_image }}"
+            alt="Código QR"
+        >
+
+
+        <div class="asset-code">
+            {{ asset.asset_code }}
+        </div>
+
+
+        <div class="asset-info">
+
+            {% if asset.category %}
+                <div>
+                    <strong>Categoría:</strong>
+                    {{ asset.category.name }}
+                </div>
+            {% endif %}
+
+
+            {% if asset.equipment_type %}
+                <div>
+                    <strong>Tipo:</strong>
+                    {{ asset.equipment_type.name }}
+                </div>
+            {% endif %}
+
+
+            {% if asset.brand %}
+                <div>
+                    <strong>Marca:</strong>
+                    {{ asset.brand.name }}
+                </div>
+            {% endif %}
+
+
+            {% if asset.model %}
+                <div>
+                    <strong>Modelo:</strong>
+                    {{ asset.model }}
+                </div>
+            {% endif %}
+
+
+            {% if asset.serial_number %}
+                <div>
+                    <strong>No. Serie:</strong>
+                    {{ asset.serial_number }}
+                </div>
+            {% endif %}
+
+        </div>
+
+
+        <div class="instructions">
+            Escanea este código QR para consultar
+            la información del equipo.
+        </div>
+
+
+        <button
+            class="print-button"
+            onclick="window.print()"
+        >
+            🖨️ Imprimir
+        </button>
+
+    </div>
+
+
+    <script>
+        window.addEventListener("load", function () {
+            window.print();
+        });
+    </script>
+
+</body>
+
+</html>
