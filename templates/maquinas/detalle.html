@@ -262,6 +262,32 @@
                 </div>
             {% endif %}
 
+            {% if last_movement %}
+                <div class="info">
+                    <div class="label">
+                        Ultimo movimiento
+                    </div>
+
+                    <div class="value movement">
+                        Salio de {{ last_movement.origin }} el ({{ last_movement.movement_date|date:"d/m/Y" }})  → Regreso a {{ last_movement.destination }} el ({{ last_movement.return_date|date:"d/m/Y" }})
+                    </div>
+                </div>
+            {% endif %}
+
+            <!--<div class="info">
+                <div class="map-container">
+                    <iframe
+                        width="100%"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps?q={{ last_movement.origin.address|urlencode }}&output=embed">
+                    </iframe>
+                </div>
+            </div>!-->
+
         </div>
 
     </div>

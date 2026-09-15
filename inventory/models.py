@@ -1,7 +1,8 @@
+import uuid
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-import uuid
+from django.conf import settings
 
 
 class Brand(models.Model):
@@ -268,6 +269,8 @@ class Location(models.Model):
 
 class Movement(models.Model):
 
+    from project.models import Project
+
     class MovementType(models.TextChoices):
         ENTRY = "entry", "Entrada"
         EXIT = "exit", "Salida"
@@ -290,6 +293,7 @@ class Movement(models.Model):
 
     movement_date = models.DateTimeField(
         verbose_name="Fecha y hora",
+        auto_now_add=True
     )
 
     origin = models.ForeignKey(
@@ -310,14 +314,20 @@ class Movement(models.Model):
         verbose_name="Ubicación destino",
     )
 
-    project = models.CharField(
-        max_length=200,
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.PROTECT,
+        related_name="movements",
+        null=True,
         blank=True,
         verbose_name="Proyecto / Obra",
     )
 
-    responsible = models.CharField(
-        max_length=200,
+    responsible = models.ForeignKey(
+        "accounts.EmployeeProfile",
+        on_delete=models.PROTECT,
+        related_name="movements",
+        null=True,
         blank=True,
         verbose_name="Responsable",
     )
@@ -450,3 +460,4 @@ class AssetPhoto(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
+

@@ -195,6 +195,7 @@ class AssetAdmin(admin.ModelAdmin):
         "current_location_display",
         "qr_code_image",
         "print_qr_button",
+        "current_project_display",
     )
 
     list_filter = (
@@ -429,9 +430,24 @@ class AssetAdmin(admin.ModelAdmin):
 
         return "Sin ubicación registrada"
 
+    def current_project_display(self, obj):
+        assignment = (
+            obj.project_assignments
+            .filter(returned_at__isnull=True)
+            .select_related("project")
+            .first()
+        )
+
+        if assignment:
+            return assignment.project
+
+        return "Bodega"
+
+
     current_location_display.short_description = "Ubicación actual"
     qr_code_image.short_description = "Código QR"
     print_qr_button.short_description = "Imprimir"
+    current_project_display.short_description = "Obra actual"
 
 
 # ============================================================

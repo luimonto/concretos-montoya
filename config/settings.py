@@ -55,7 +55,11 @@ INSTALLED_APPS = [
     "cloudinary",
 
     "inventory",
+    "project",
+    "accounts",
 ]
+
+AUTH_USER_MODEL = "accounts.User"
 
 JAZZMIN_SETTINGS = {
     "site_title": "Concretos Montoya",
