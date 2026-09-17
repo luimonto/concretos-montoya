@@ -6,4 +6,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index, name="index"),
     path('maquinas/info/<str:token>/', views.detalle_maquina_qr, name='detalle_maquina_qr'),
+    path(
+        "maquinas/qr/<uuid:token>/movimiento/",
+        views.registrar_movimiento,
+        name="registrar_movimiento",
+    ),
 ]

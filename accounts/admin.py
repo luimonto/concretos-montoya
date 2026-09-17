@@ -4,10 +4,6 @@ from django.contrib.auth.admin import UserAdmin
 from .models import User, EmployeeProfile, ClientProfile
 
 
-# ============================================================
-# USER
-# ============================================================
-
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
 
@@ -67,10 +63,6 @@ class CustomUserAdmin(UserAdmin):
         "username",
     )
 
-
-# ============================================================
-# EMPLOYEE
-# ============================================================
 
 @admin.register(EmployeeProfile)
 class EmployeeProfileAdmin(admin.ModelAdmin):
@@ -138,16 +130,7 @@ class EmployeeProfileAdmin(admin.ModelAdmin):
                     "notes",
                 ),
             },
-        ),
-        (
-            "Auditoría",
-            {
-                "fields": (
-                    "created_at",
-                    "updated_at",
-                ),
-            },
-        ),
+        )
     )
 
     def full_name(self, obj):
@@ -155,10 +138,6 @@ class EmployeeProfileAdmin(admin.ModelAdmin):
 
     full_name.short_description = "Nombre"
 
-
-# ============================================================
-# CLIENT
-# ============================================================
 
 @admin.register(ClientProfile)
 class ClientProfileAdmin(admin.ModelAdmin):

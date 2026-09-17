@@ -100,6 +100,27 @@
         .notes {
             white-space: pre-line;
         }
+
+        .movement-action {
+            margin-top: 24px;
+        }
+
+        .movement-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #111827;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .movement-button:hover {
+            background: #1f2937;
+        }
     </style>
 </head>
 
@@ -135,6 +156,15 @@
             <h1>
                 {{ maquina.equipment_type.name }}
             </h1>
+
+            <div class="movement-action">
+                <a
+                    href="{% url 'registrar_movimiento' maquina.qr_token %}"
+                    class="movement-button"
+                >
+                    Registrar movimiento
+                </a>
+            </div>
 
 
             <div class="info">
