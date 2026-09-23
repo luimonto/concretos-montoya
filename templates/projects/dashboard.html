@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard de Obras</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f4f6f8;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #6b7280;
+        }
+
+        /* ================================
+           SUMMARY CARDS
+        ================================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(5, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .summary-title {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        /* ================================
+           PROJECT CARD
+        ================================= */
+
+        .project-card {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            margin: 0;
+            font-size: 21px;
+        }
+
+        .project-code {
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .project-client {
+            color: #6b7280;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        /* ================================
+           STATUS
+        ================================= */
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-on-time {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-overdue {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ================================
+           INFO GRID
+        ================================= */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* ================================
+           PROGRESS
+        ================================= */
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+        }
+
+        .progress-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .progress-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .progress-time {
+            background: #2563eb;
+        }
+
+        .progress-work {
+            background: #16a34a;
+        }
+
+        .progress-money {
+            background: #f59e0b;
+        }
+
+        /* ================================
+           FINANCIAL COMPARISON
+        ================================= */
+
+        .comparison {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .comparison h3 {
+            margin: 0 0 15px;
+            font-size: 17px;
+        }
+
+        .financial-warning {
+            margin-top: 15px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .financial-on-track {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .financial-warning-style {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .financial-critical {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1100px) {
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .info-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-value {
+                font-size: 22px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <div class="header">
+
+        <div>
+
+            <h1>
+                Dashboard de Obras
+            </h1>
+
+            <p>
+                Seguimiento de tiempo, avance y presupuesto
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         SUMMARY
+    ====================================== -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Obras activas
+            </div>
+
+            <div class="summary-value">
+                {{ total_active }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Presupuesto total
+            </div>
+
+            <div class="summary-value">
+                ${{ total_budget|floatformat:2 }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Gastado
+            </div>
+
+            <div class="summary-value">
+                ${{ total_spent|floatformat:2 }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Comprometido
+            </div>
+
+            <div class="summary-value">
+                ${{ total_committed|floatformat:2 }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Disponible
+            </div>
+
+            <div class="summary-value">
+                ${{ total_available|floatformat:2 }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         PROJECTS
+    ====================================== -->
+
+    {% for project in active_projects %}
+
+    <div class="project-card">
+
+
+        <!-- PROJECT HEADER -->
+
+        <div class="project-header">
+
+            <div>
+
+                <h2 class="project-title">
+                    {{ project.name }}
+                </h2>
+
+                <div class="project-code">
+                    {{ project.code }}
+                </div>
+
+                {% if project.client %}
+                <div class="project-client">
+
+                    Cliente:
+                    {{ project.client }}
+
+                </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- SCHEDULE STATUS -->
+
+            {% if project.schedule_status == "overdue" %}
+
+                <span
+                    class="status status-overdue"
+                >
+                    Fuera de tiempo
+                </span>
+
+            {% elif project.schedule_status == "warning" %}
+
+                <span
+                    class="status status-warning"
+                >
+                    Próxima a terminar
+                </span>
+
+            {% else %}
+
+                <span
+                    class="status status-on-time"
+                >
+                    En tiempo
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- PROJECT INFO -->
+
+        <div class="info-grid">
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Inicio
+                </div>
+
+                <div class="info-value">
+
+                    {% if project.start_date %}
+                        {{ project.start_date|date:"d/m/Y" }}
+                    {% else %}
+                        Sin definir
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Terminación estimada
+                </div>
+
+                <div class="info-value">
+
+                    {% if project.estimated_end_date %}
+                        {{ project.estimated_end_date|date:"d/m/Y" }}
+                    {% else %}
+                        Sin definir
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Presupuesto
+                </div>
+
+                <div class="info-value">
+
+                    ${{ project.budget|floatformat:2 }}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Disponible
+                </div>
+
+                <div class="info-value">
+
+                    ${{ project.available|floatformat:2 }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             TIME PROGRESS
+        ================================== -->
+
+        {% if project.time_progress is not None %}
+
+        <div class="progress-section">
+
+            <div class="progress-header">
+
+                <span class="progress-title">
+                    Tiempo transcurrido
+                </span>
+
+                <span class="progress-value">
+                    {{ project.time_progress }}%
+                </span>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill progress-time"
+                    style="width: {{ project.time_progress }}%;"
+                ></div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================
+             WORK PROGRESS
+        ================================== -->
+
+        <div class="progress-section">
+
+            <div class="progress-header">
+
+                <span class="progress-title">
+                    Avance de obra
+                </span>
+
+                <span class="progress-value">
+
+                    {% if project.progress is not None %}
+                        {{ project.progress }}%
+                    {% else %}
+                        N/D
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+            <div class="progress-bar">
+
+                {% if project.progress is not None %}
+
+                <div
+                    class="progress-fill progress-work"
+                    style="width: {{ project.progress }}%;"
+                ></div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             MONEY PROGRESS
+        ================================== -->
+
+        <div class="progress-section">
+
+            <div class="progress-header">
+
+                <span class="progress-title">
+                    Presupuesto utilizado
+                </span>
+
+                <span class="progress-value">
+                    {{ project.money_progress }}%
+                </span>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill progress-money"
+                    style="width: {{ project.money_progress }}%;"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             FINANCIAL COMPARISON
+        ================================== -->
+
+        <div class="comparison">
+
+            <h3>
+                Situación financiera
+            </h3>
+
+
+            {% if project.financial_status == "critical" %}
+
+                <div
+                    class="financial-warning financial-critical"
+                >
+                    ⚠️ El gasto está avanzando
+                    considerablemente más rápido
+                    que el tiempo de la obra.
+                </div>
+
+
+            {% elif project.financial_status == "warning" %}
+
+                <div
+                    class="financial-warning financial-warning-style"
+                >
+                    ⚠️ El gasto está avanzando
+                    más rápido que el tiempo de la obra.
+                </div>
+
+
+            {% else %}
+
+                <div
+                    class="financial-warning financial-on-track"
+                >
+                    ✓ El gasto y el tiempo de la obra
+                    mantienen una proporción razonable.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+    {% empty %}
+
+        <div class="project-card">
+
+            <h2>
+                No hay obras activas
+            </h2>
+
+            <p>
+                Actualmente no existen obras
+                planeadas o en proceso.
+            </p>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+
+</html>

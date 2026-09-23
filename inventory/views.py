@@ -59,6 +59,7 @@ def registrar_movimiento(request, token):
         condition_in = request.POST.get("condition_in", "")
         notes = request.POST.get("notes", "")
 
+        print(movement_type, origin_id, destination_id, project_id, responsible_id, condition_out, condition_in, notes)
         Movement.objects.create(
             asset=maquina,
             movement_type=movement_type,
