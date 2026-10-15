@@ -195,6 +195,7 @@ class RequisitionAdmin(admin.ModelAdmin):
     readonly_fields = (
         "requested_at",
         "approved_at",
+        "estimated_total",
         "created_at",
         "updated_at",
     )

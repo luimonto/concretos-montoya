@@ -67,6 +67,9 @@ JAZZMIN_SETTINGS = {
     "site_brand": "Concretos Montoya",
     "welcome_sign": "Bienvenido al panel de Concretos Montoya",
     "copyright": "Concretos Montoya",
+    "site_logo": "images/concretos_montoya_logo.jpg",
+    "login_logo": "images/concretos_montoya_logo.jpg",
+    "site_logo_classes": "img-fluid",
 }
 
 
@@ -158,6 +161,9 @@ USE_TZ = True
 # Static files
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # User uploaded files / media
 MEDIA_URL = "/media/"

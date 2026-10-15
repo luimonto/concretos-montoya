@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from inventory.models import Asset
 from accounts.models import EmployeeProfile
 
@@ -262,7 +263,6 @@ class Supplier(models.Model):
         verbose_name_plural = "Proveedores"
         ordering = ["name"]
 
-
 class Requisition(models.Model):
 
     class Status(models.TextChoices):
@@ -328,6 +328,7 @@ class Requisition(models.Model):
         decimal_places=2,
         default=Decimal("0.00"),
         verbose_name="Total estimado",
+        editable=False,
     )
 
     notes = models.TextField(
@@ -357,6 +358,23 @@ class Requisition(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True,
     )
+
+    def recalculate_total(self):
+
+        total = (
+            self.items.aggregate(
+                total=Sum("total")
+            )["total"]
+            or Decimal("0.00")
+        )
+
+        self.estimated_total = total
+
+        Requisition.objects.filter(
+            pk=self.pk
+        ).update(
+            estimated_total=total
+        )
 
     def __str__(self):
         return f"{self.code} - {self.project}"
@@ -406,6 +424,7 @@ class RequisitionItem(models.Model):
         decimal_places=2,
         default=Decimal("0.00"),
         verbose_name="Total",
+        editable=False,
     )
 
     def save(self, *args, **kwargs):
@@ -415,6 +434,13 @@ class RequisitionItem(models.Model):
         )
 
         super().save(*args, **kwargs)
+
+        self.requisition.recalculate_total()
+
+    def delete(self, *args, **kwargs):
+        requisition = self.requisition
+        super().delete(*args, **kwargs)
+        requisition.recalculate_total()
 
     def __str__(self):
         return f"{self.product} - {self.quantity}"
